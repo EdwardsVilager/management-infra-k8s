@@ -2,26 +2,41 @@
 # Entorno global de despliegue
 ##########################################
 
-# Ambiente del despliegue
-# Ej: dev | stage | prod
+# dev | stage | prod
 environment = "dev"
 
 
 ##########################################
-# Configuración del Provider Kubernetes
-# (NO incluir valores reales)
+# Kubernetes Access
 ##########################################
 
-# Endpoint del API Server del cluster
-k8s_host = "https://<K8S_API_ENDPOINT>"
+# ──────────────────────────────────────
+# OPCIÓN A (RECOMENDADA)
+# Acceso mediante kubeconfig
+# ──────────────────────────────────────
+# Usar para:
+# - Laptop
+# - Bastion
+# - GitLab Runner
+# - Jenkins Agent
 
-# Certificado cliente en base64
-k8s_client_certificate = "<BASE64_CLIENT_CERT>"
+use_kubeconfig  = true
+kubeconfig_path = "~/.kube/config"
+kube_context    = "kubernetes-admin@cluster.local"
 
-# Llave privada del cliente en base64
-k8s_client_key = "<BASE64_CLIENT_KEY>"
 
-# Certificado CA del cluster en base64
+# ──────────────────────────────────────
+# OPCIÓN B (CI/CD o ServiceAccount)
+# Acceso directo por API
+# ──────────────────────────────────────
+# Solo usar si use_kubeconfig = false
+
+k8s_host = "https://<IP_Master_or_Balanceador>:6443"
+
+# Token del ServiceAccount terraform-deployer
+k8s_token = "<K8S_SERVICEACCOUNT_TOKEN>"
+
+# CA del cluster (base64)
 k8s_cluster_ca_certificate = "<BASE64_CLUSTER_CA>"
 
 
@@ -32,7 +47,7 @@ k8s_cluster_ca_certificate = "<BASE64_CLUSTER_CA>"
 microservices = {
 
   ###################################
-  # Ejemplo: wsrecaudos
+  # wsrecaudos
   ###################################
   wsrecaudos = {
     name           = "wsrecaudos"
@@ -46,7 +61,7 @@ microservices = {
   }
 
   ###################################
-  # Ejemplo: api-orders
+  # api-orders
   ###################################
   api-orders = {
     name           = "api-orders"
@@ -60,7 +75,7 @@ microservices = {
   }
 
   ###################################
-  # Ejemplo: auth-service
+  # auth-service
   ###################################
   auth = {
     name           = "auth-service"
@@ -72,7 +87,6 @@ microservices = {
     enable_ingress = true
     environment    = "dev"
   }
-
 }
 
 
@@ -80,11 +94,6 @@ microservices = {
 # Valores globales opcionales
 ##########################################
 
-# Réplicas por defecto si el microservicio no las define
-default_replicas = 1
-
-# Ingress deshabilitado por defecto
+default_replicas       = 1
 default_enable_ingress = false
-
-# Ruta base donde viven los Helm Charts
-charts_base_path = "./charts"
+charts_base_path       = "./charts"

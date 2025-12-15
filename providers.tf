@@ -1,32 +1,38 @@
 terraform {
-  required_version = ">= 1.6.0"
+  required_version = ">= 1.4"
 
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.23.0"
+      version = "~> 2.30"
     }
+
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.12.1"
+      version = "~> 2.13"
     }
   }
 }
 
+######################################
+# Kubernetes Provider
+######################################
+
 provider "kubernetes" {
-    #config_path = "~/.kube/config"
-    host                   = var.k8s_host
-    client_certificate     = base64decode(var.k8s_client_certificate)
-    client_key             = base64decode(var.k8s_client_key)
-    cluster_ca_certificate = base64decode(var.k8s_cluster_ca_certificate)
+  host                   = var.k8s_host
+  token                  = var.k8s_token
+  cluster_ca_certificate = base64decode(var.k8s_cluster_ca_certificate)
 }
+
+######################################
+# Helm Provider
+######################################
+
 
 provider "helm" {
   kubernetes {
-    #config_path = "~/.kube/config"
     host                   = var.k8s_host
-    client_certificate     = base64decode(var.k8s_client_certificate)
-    client_key             = base64decode(var.k8s_client_key)
+    token                  = var.k8s_token
     cluster_ca_certificate = base64decode(var.k8s_cluster_ca_certificate)
   }
 }

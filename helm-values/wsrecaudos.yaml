@@ -1,0 +1,102 @@
+replicaCount: 2
+
+image:
+  repository: sf-harbor.sf.plf.idemia.com/co-rnec-id-sirc-pdftif-snapshot/wsrecaudos
+  tag: "4.7.2"
+  pullPolicy: Always
+
+service:
+  type: NodePort
+  port: 7050
+  nodePort: 30080
+
+serviceAccount:
+  name: wsrecaudos-sa
+
+imagePullSecrets:
+  - name: harbor-cred
+
+env:
+  # ───── Server ─────
+  - name: SERVER_HOST
+    value: "eis-apps01.mnt.com"
+  - name: SERVER_PORT
+    value: "7050"
+
+  # ───── WS ─────
+  - name: WS_USER
+    value: "idemia"
+  - name: WS_PASSWORD
+    value: "OWZkZDBjNzlkMTFlN2FkMGRmNGEwMDczOTQ3M2M2M2E="
+  - name: WS_ENDPOINT
+    value: "http://50.50.1.15:8070/mockWSRecaudosBinding?wsdl"
+
+  # ───── Log4j ─────
+  - name: LOG4J_STATUS
+    value: "INFO"
+  - name: LOG_LEVEL
+    value: "INFO"
+  - name: LOG_PATH
+    value: "/app/logs"
+  - name: LOG_FILE_NAME
+    value: "info_wsrecaudos.log"
+  - name: LOG_MAX_SIZE
+    value: "10MB"
+  - name: LOG_MAX_HISTORY
+    value: "10"
+
+  # ───── Timeouts ─────
+  - name: RECAUDOS_CONNECT_TIMEOUT
+    value: "6000"
+  - name: RECAUDOS_READ_TIMEOUT
+    value: "6000"
+
+  # ───── Database ─────
+  - name: DB_URL
+    value: "jdbc:oracle:thin:@//50.50.1.15:1521/EISUTILS"
+  - name: DB_USERNAME
+    value: "ENROLLMENT_MNG"
+  - name: DB_PASSWORD
+    value: "ENROLLMENT_MNG"
+
+  # ───── Ref tables ─────
+  - name: REF_TABLES_BASEURL
+    value: "http://50.50.1.15:6050/ref-tables"
+  - name: TIME_LOCK_NUIP
+    value: "15"
+
+  # ───── GOU ─────
+  - name: GOU_BASEURL
+    value: "http://10.127.12.12:8000/api/payments/"
+  - name: GOU_CONNECT_TIMEOUT
+    value: "20000"
+  - name: GOU_READ_TIMEOUT
+    value: "20000"
+  - name: GOU_USERNAME
+    value: "SURNV1NSTkVD"
+  - name: GOU_PASSWORD
+    value: "YVdSbGJXbGhNakF5TkZKT1JVTT0="
+  - name: GOU_CLIENTID
+    value: "IDM"
+  - name: GOU_IP
+    value: "172.23.25.25"
+  - name: GOU_MAC
+    value: "BC-0F-F3-BF-1C-C5"
+  - name: GOU_OFFICE
+    value: "GOU"
+  - name: GOU_TYPEDOC
+    value: "CC"
+  - name: GOU_CONVENTION_ID
+    value: "2"
+
+  # ───── App ─────
+  - name: APP_VERSION
+    value: "4.7.2"
+
+  # ───── Swagger ─────
+  - name: SWAGGER_PATH
+    value: "/v2/swagger-ui"
+  - name: SWAGGER_USER
+    value: "spring"
+  - name: SWAGGER_PASSWORD
+    value: "spring"

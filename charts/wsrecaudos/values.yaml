@@ -1,0 +1,32 @@
+# Número de réplicas por defecto
+replicaCount: 1
+
+image:
+  repository: ""
+  tag: ""
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  nodePort: null
+
+serviceAccount:
+  create: true
+  name: wsrecaudos-sa
+
+imagePullSecrets: []
+
+# Variables de entorno del contenedor
+env: []
+
+# Recursos (opcional, vacío por defecto)
+resources: {}
+
+# Ingress (no usado por ahora, pero definido)
+ingress:
+  enabled: false
+  className: ""
+  host: ""
+  path: /
+  pathType: Prefix

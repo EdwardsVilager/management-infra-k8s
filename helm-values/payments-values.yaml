@@ -1,0 +1,27 @@
+image:
+  repository: docker.io/company/payments-service
+  tag: "2.1.0"
+
+replicaCount: 2
+
+service:
+  port: 9000
+
+ingress:
+  enabled: false
+  className: nginx
+  host: payments.dev.local
+  path: /
+  pathType: Prefix
+
+resources:
+  limits:
+    cpu: "400m"
+    memory: "512Mi"
+  requests:
+    cpu: "150m"
+    memory: "256Mi"
+
+env:
+  - name: PAYMENTS_PROVIDER
+    value: "stripe"

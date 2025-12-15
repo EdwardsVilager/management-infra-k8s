@@ -1,0 +1,23 @@
+controller:
+  replicaCount: 2
+
+  service:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+
+  metrics:
+    enabled: true
+
+  admissionWebhooks:
+    enabled: true
+
+  resources:
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+
+defaultBackend:
+  enabled: true

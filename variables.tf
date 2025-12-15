@@ -51,19 +51,40 @@ variable "charts_base_path" {
 # Kubernetes Configuration
 ######################################
 
-variable "k8s_host" {
-  description = "API Server endpoint"
+variable "use_kubeconfig" {
+  description = "Si true, Terraform usará kubeconfig. Si false, usará token + host"
+  type        = bool
+  default     = true
+}
+
+variable "kubeconfig_path" {
+  description = "Ruta al archivo kubeconfig"
   type        = string
+  default     = "~/.kube/config"
+}
+
+variable "kube_context" {
+  description = "Contexto kubeconfig a usar"
+  type        = string
+  default     = null
+}
+
+variable "k8s_host" {
+  description = "Endpoint API del clúster Kubernetes"
+  type        = string
+  default     = null
 }
 
 variable "k8s_token" {
-  description = "ServiceAccount token"
+  description = "Token del ServiceAccount para acceso al clúster"
   type        = string
   sensitive   = true
+  default     = null
 }
 
 variable "k8s_cluster_ca_certificate" {
-  description = "Cluster CA (base64)"
+  description = "Certificado CA del clúster (base64)"
   type        = string
   sensitive   = true
+  default     = null
 }

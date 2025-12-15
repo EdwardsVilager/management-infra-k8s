@@ -1,0 +1,90 @@
+##########################################
+# Entorno global de despliegue
+##########################################
+
+# Ambiente del despliegue
+# Ej: dev | stage | prod
+environment = "dev"
+
+
+##########################################
+# Configuración del Provider Kubernetes
+# (NO incluir valores reales)
+##########################################
+
+# Endpoint del API Server del cluster
+k8s_host = "https://<K8S_API_ENDPOINT>"
+
+# Certificado cliente en base64
+k8s_client_certificate = "<BASE64_CLIENT_CERT>"
+
+# Llave privada del cliente en base64
+k8s_client_key = "<BASE64_CLIENT_KEY>"
+
+# Certificado CA del cluster en base64
+k8s_cluster_ca_certificate = "<BASE64_CLUSTER_CA>"
+
+
+##########################################
+# Microservicios a desplegar
+##########################################
+
+microservices = {
+
+  ###################################
+  # Ejemplo: wsrecaudos
+  ###################################
+  wsrecaudos = {
+    name           = "wsrecaudos"
+    namespace      = "wsrecaudos-ns"
+    image          = "registry.example.com/wsrecaudos:1.0.0"
+    replicas       = 1
+    port           = 7050
+    values_file    = "helm-values/wsrecaudos.yaml"
+    enable_ingress = false
+    environment    = "dev"
+  }
+
+  ###################################
+  # Ejemplo: api-orders
+  ###################################
+  api-orders = {
+    name           = "api-orders"
+    namespace      = "api-orders"
+    image          = "registry.example.com/api-orders:1.0.0"
+    replicas       = 2
+    port           = 8070
+    values_file    = "helm-values/api-orders.yaml"
+    enable_ingress = true
+    environment    = "dev"
+  }
+
+  ###################################
+  # Ejemplo: auth-service
+  ###################################
+  auth = {
+    name           = "auth-service"
+    namespace      = "auth"
+    image          = "registry.example.com/auth-service:1.0.0"
+    replicas       = 2
+    port           = 8080
+    values_file    = "helm-values/auth-values.yaml"
+    enable_ingress = true
+    environment    = "dev"
+  }
+
+}
+
+
+##########################################
+# Valores globales opcionales
+##########################################
+
+# Réplicas por defecto si el microservicio no las define
+default_replicas = 1
+
+# Ingress deshabilitado por defecto
+default_enable_ingress = false
+
+# Ruta base donde viven los Helm Charts
+charts_base_path = "./charts"

@@ -74,22 +74,6 @@ resource "helm_release" "microservice" {
     file("${path.module}/${each.value.values_file}")
   ]
 
-  # Overrides dinámicos (image, replicas, ports)
-  set {
-    name  = "image"
-    value = each.value.image
-  }
-
-  set {
-    name  = "replicaCount"
-    value = each.value.replicas
-  }
-
-  set {
-    name  = "service.port"
-    value = each.value.port
-  }
-
   # Opcional (solo si enable_ingress = true)
   dynamic "set" {
     for_each = each.value.enable_ingress ? [1] : []

@@ -110,6 +110,19 @@ Diseñado para ser:
 - Portable
 - Compatible con CI/CD
 
+### ⛵ Helm Chart: ingress-nginx y cert-manager
+
+> Descarga a repo local
+
+    ```
+    cd charts/
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    helm repo add jetstack https://charts.jetstack.io
+    
+    helm pull ingress-nginx/ingress-nginx --version 4.11.0 --untar
+    helm pull jetstack/cert-manager --version v1.14.3 --untar
+    ```
+
 ---
 
 ## 🚀 Flujo de despliegue

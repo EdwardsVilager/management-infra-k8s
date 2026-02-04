@@ -21,12 +21,12 @@ resource "kubernetes_namespace" "cert_manager" {
 resource "helm_release" "ingress_nginx" {
   name       = "ingress-nginx"
   namespace  = kubernetes_namespace.ingress.metadata[0].name
-  #repository = "https://kubernetes.github.io/ingress-nginx"
-  #chart      = "ingress-nginx"
-  #version    = "4.11.0"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  version    = "4.11.0"
 
   # Chart LOCAL
-  chart = "${path.module}/charts/ingress-nginx"
+  #chart = "${path.module}/charts/ingress-nginx"
 
   values = [
     file("${path.module}/helm-values/ingress-nginx-values.yaml")
@@ -40,12 +40,12 @@ resource "helm_release" "ingress_nginx" {
 resource "helm_release" "cert_manager" {
   name       = "cert-manager"
   namespace  = kubernetes_namespace.cert_manager.metadata[0].name
-  #repository = "https://charts.jetstack.io"
-  #chart      = "cert-manager"
-  #version    = "v1.14.3"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  version    = "v1.14.3"
 
   # Chart LOCAL
-  chart = "${path.module}/charts/cert-manager"
+  #chart = "${path.module}/charts/cert-manager"
 
   values = [
     file("${path.module}/helm-values/cert-manager-values.yaml")
